@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				background-color: #333;
+				margin: 0px;
+				padding: 0px;
+				list-style: none;
+			}
+
+			.all {
+				width: 100%;
+			}
+
+			.play {
+				display: inline-block;
+				height: 40px;
+				width: 40px;
+				background-image: url(img/play.png);
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+			.img {
+				display: inline-block;
+				background-size: cover;
+				background-repeat: no-repeat;
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+				animation: rotate 6s linear infinite;
+			}
+
+			@keyframes rotate {
+				from {
+					transform: rotate(0deg);
+				}
+
+				to {
+					transform: rotate(360deg);
+				}
+			}
+
+			.last {
+				height: 30px;
+				width: 30px;
+				background-image: url(img/last.png);
+				background-size: contain;
+				background-repeat: no-repeat;
+				display: inline-block;
+			}
+
+			.next {
+				height: 30px;
+				width: 30px;
+				display: inline-block;
+				background-image: url(img/next.png);
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+			.volume {
+				width: 20px;
+				height: 20px;
+				/* background-color: white; */
+				display: inline-block;
+				background-image: url(img/yinliang.png);
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+			.volumeNum {
+				margin-bottom: 5px;
+				width: 2px;
+				height: 70px;
+				background-color: white;
+				display: inline-block;
+				border-radius: 2px;
+				position: relative;
+			}
+
+			.volumeBtn {
+				width: 6px;
+				height: 6px;
+				border: 1px solid red;
+				background-color: white;
+				border-radius: 50%;
+				position: absolute;
+				left: -3px;
+				/* bottom: -3px; */
+			}
+
+			.mode {
+				width: 20px;
+				height: 20px;
+				/* margin-bottom: 5px; */
+				display: inline-block;
+				background-image: url(img/listLoop.png);
+				background-size: contain;
+				background-repeat: no-repeat;
+
+			}
+
+			.progressBar {
+				width: 300px;
+				height: 4px;
+				border-radius: 2px;
+				background-color: white;
+				position: relative;
+				top: 0;
+				left: 20px;
+			}
+
+			.progressBtn {
+				width: 10px;
+				height: 10px;
+				border-radius: 50%;
+				border: 2px solid red;
+				box-sizing: border-box;
+				position: absolute;
+				top: -3px;
+				/* left: -3px; */
+				background-color: white;
+			}
+
+			.progressStr {
+				width: 0%;
+				height: 4px;
+				border-radius: 2px;
+				background-color: red;
+			}
+
+			.time span {
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+
+		<audio src="" class="mp3">
+		</audio>
+		<div class="all">
+			<div class="img"></div>
+			<div class="last"></div>
+			<div class="play"></div>
+			<div class="next"></div>
+			<div class="volume"></div>
+			<div class="volumeNum">
+				<div class="volumeBtn" style="bottom: -3px;"></div>
+			</div>
+			<div class="mode"></div>
+			<div class="progressBar">
+				<div class="progressStr"></div>
+				<div class="progressBtn" style="left: -3px;"></div>
+			</div>
+			<div class="time">
+				<span class="playtime">00:00</span>
+				<span class="duration">00:00</span>
+			</div>
+		</div>
+
+		<script src="js/new_file.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$('.img').css({
+				'animation-play-state': 'paused'
+			});
+			var judge = false;
+			var player = document.querySelector('.mp3');
+
+			// var allMusic = [];
+			var allMusic = [{
+					"id": 1,
+					"src": "./media/music.m4a",
+					"name": "第1条音乐",
+					"img": "./img/img1.jpg"
+				},
+				{
+					"id": 2,
+					"src": "./media/music1.m4a",
+					"name": "第2条音乐",
+					"img": "./img/img2.jpg"
+				},
+				{
+					"id": 3,
+					"src": "./media/music2.m4a",
+					"name": "第3条音乐",
+					"img": "./img/img3.jpg"
+				},
+				{
+					"id": 4,
+					"src": "./media/music3.m4a",
+					"name": "第4条音乐",
+					"img": "./img/img4.jpg"
+				},
+				{
+					"id": 5,
+					"src": "./media/music4.m4a",
+					"name": "第5条音乐",
+					"img": "./img/img5.jpg"
+				},
+				{
+					"id": 6,
+					"src": "./media/music5.m4a",
+					"name": "第6条音乐",
+					"img": "./img/img6.jpg"
+				}
+			]
+			// $.ajax({
+			// 	type:'get',
+			// 	url:'./js/new_file.json',
+			// 	dataType:'json',
+			// 	success:function(e){
+			// 		allMusic = e.data;
+			var num = 0;
+			var arr = [];
+			player.src = allMusic[0].src;
+			$('.img').css({
+				'background-image': 'url(' + allMusic[0].img + ')'
+			});
+			console.log(allMusic);
+			for (var i = 0; i < allMusic.length - 1; i++) {
+				var arrNum = Math.round(Math.random() * (allMusic.length - 1));
+				var flag = true;
+				for (var j = 0; j <= arr.length; j++) {
+					if (arrNum == arr[j]) {
+						flag = false;
+						break;
+					}
+				}
+				if (flag) {
+					arr.push(arrNum);
+				} else {
+					i--;
+				}
+			}
+			console.log(arr);
+			num = allMusic.length;
+
+			var circulate = 0; //控制循环播放模式
+			var completeArr = [0];
+			var randomArr = [];
+
+			var dura = setInterval(function() { //加载
+				if (player.duration) {
+					var omm = Math.floor(player.duration / 60); //duration总时长
+					var oss = Math.ceil(player.duration % 60);
+					$('.duration').html((omm < 10 ? '0' + omm : omm) + ':' + (oss < 10 ? '0' + oss : oss));
+					clearInterval(dura);
+				} else {
+					$('.duration').html('00:00');
+				}
+			}, 10)
+
+			$('.play').click(function() {
+				var mm = Math.floor(player.duration / 60); //duration总时长
+				var ss = Math.ceil(player.duration % 60);
+
+				$('.duration').html((mm < 10 ? '0' + mm : mm) + ':' + (ss < 10 ? '0' + ss : ss));
+				var playSet = setInterval(function() {
+					var nmm = Math.floor(player.currentTime / 60); //currentTime播放时长
+					var nss = Math.ceil(player.currentTime % 60);
+					$('.playtime').html((nmm < 10 ? '0' + nmm : nmm) + ':' + (nss < 10 ? '0' + nss : nss));
+
+					if (judge == false) {
+						$('.progressBtn').css({
+							'left': (player.currentTime / player.duration) * $('.progressBar').width() - 3 + 'px'
+						}); //进度条上的按钮
+						$('.progressStr').css({
+							'width': (player.currentTime / player.duration * 100) + '%'
+						});
+					}
+
+					if (player.ended) {
+						switch (circulate % 3) {
+							case 0: //顺序
+								if (shunxu) {
+									num++;
+								} else {
+									num = sjhsx;
+									num++
+								}
+								if (completeArr.length < allMusic.length) {
+									completeArr.push(num % allMusic.length);
+								} else {
+									completeArr = [0];
+								}
+								var numN = num % allMusic.length;
+								player.src = allMusic[numN].src;
+								$('.img').css({
+									'background-image': 'url(' + allMusic[numN].img + ')',
+									'animation-play-state': 'running'
+								})
+								player.play();
+								console.log(completeArr);
+								console.log(arr);
+								break;
+							case 1: //随机
+								suijibofang();
+								player.play();
+								break;
+							case 2: //单曲循环
+								var numN = num % allMusic.length;
+								console.log(numN);
+								player.src = allMusic[numN].src;
+								$('.img').css({
+									'background-image': 'url(' + allMusic[numN].img + ')',
+									'animation-play-state': 'running'
+								})
+								player.play();
+								break;
+						}
+						$('.progressBtn').css({
+							'left': (player.currentTime / player.duration) * $('.progressBar').width() - 3 + 'px'
+						}); //进度条上的按钮
+						$('.progressStr').css({
+							'width': (player.currentTime / player.duration * 100) + '%'
+						});
+						// clearInterval(playSet);
+					}
+				}, 10);
+				if (player.paused) { //判断是否正在播放
+					player.play(); //播放
+					$('.img').css({
+						'animation-play-state': 'running'
+					});
+					$('.play').css("background-image", "url(img/pause.png)");
+				} else {
+					player.pause(); //暂停
+					$('.play').css("background-image", "url(img/play.png)")
+					$('.img').css({
+						'animation-play-state': 'paused'
+					});
+				}
+			})
+			$('.progressBar').click(function(e) {
+				var btnlen = e.clientX - $('.progressBar').offset().left;
+				player.currentTime = btnlen / $('.progressBar').width() * player.duration;
+				if (judge == false) {
+					$('.progressBtn').css({
+						'left': btnlen - 3 + 'px'
+					});
+					$('.progressStr').css({
+						'width': btnlen / $('.progressBar').width() * 100 + '%'
+					})
+				}
+
+			})
+			// 鼠标拖动主轴按钮
+			function drap(obj) {
+				obj.addEventListener('mousedown', start);
+				var save = 0;
+
+				function start(event) { // 鼠标左键            
+					if (event.button == 0) { // getComputedStyle(obj)['margin-left'] return XXpx需要转成整型                // 如果有obj有margin值而不加这个数组拖拽会出现位置偏移
+						offsetX = event.pageX - obj.offsetLeft + parseInt(getComputedStyle(obj)['margin-left']);
+						document.addEventListener('mousemove', move);
+						document.addEventListener('mouseup', stop);
+					}
+					return false; //阻止默认事件或冒泡        
+				}
+
+				function move(event) {
+					judge = true;
+					if (-3 < event.pageX - offsetX && event.pageX - offsetX < $('.progressBar').width() - 3) {
+						save = event.pageX - offsetX;
+						obj.style.left = (event.pageX - offsetX) + 'px';
+						$('.progressStr').css({
+							'width': (event.pageX - offsetX + 3) / $('.progressBar').width() * 100 + '%'
+						})
+					}
+
+					return false; //阻止默认事件或冒泡
+				}
+
+				function stop(envet) {
+					player.currentTime = save / $('.progressBar').width() * player.duration;
+					document.removeEventListener('mousemove', move);
+					document.removeEventListener('mouseup', stop);
+					judge = false;
+				}
+			}
+			var obj = document.getElementsByClassName('progressBtn')[0];
+			var objBar = document.getElementsByClassName('progressBar')[0];
+			drap(obj);
+			// 点击主轴
+			function darpBar(objBar) {
+				objBar.addEventListener('mousedown', startBar);
+
+				function startBar(e) {
+					$('.progressBtn').css({
+						'left': e.clientX - objBar.offsetLeft - 3 + 'px'
+					});
+					$('.progressStr').css({
+						'width': (e.pageX - 20) / $('.progressBar').width() * 100 + '%'
+					});
+					judge = true;
+					offsetX1 = e.pageX - obj.offsetLeft + parseInt(getComputedStyle(obj)['margin-left']);
+					document.addEventListener('mousemove', moveBar);
+					document.addEventListener('mouseup', stopBar);
+				}
+
+				function moveBar(e) {
+					if (0 < e.pageX - 20 && e.pageX - 20 < $('.progressBar').width()) {
+						$('.progressBtn').css({
+							'left': e.pageX - 20 - 3 + 'px'
+						});
+						$('.progressStr').css({
+							'width': (e.pageX - 20) / $('.progressBar').width() * 100 + '%'
+						});
+					}
+					judge = true;
+				}
+
+				function stopBar(e) {
+					judge = false;
+					document.removeEventListener('mousemove', moveBar);
+					document.removeEventListener('mouseup', stopBar);
+				}
+
+			}
+			darpBar(objBar);
+
+			//音量设置
+			//鼠标拖动音量按钮
+			var volbtn = false;
+
+			function drapVol(obj) {
+				obj.addEventListener('mousedown', startVol);
+
+				function startVol(event) { // 鼠标左键 
+					volbtn = true;
+					console.log(22222);
+					if (event.button == 0) { // getComputedStyle(obj)['margin-left'] return XXpx需要转成整型                // 如果有obj有margin值而不加这个数组拖拽会出现位置偏移
+						offsetY = event.pageY - obj.offsetTop + parseInt(getComputedStyle(obj)['margin-top']); // 绑定事件，同样unbind解绑定，此效果的实现最后必须要解绑定，否则鼠标松开后拖拽效果依然存在                //movemove事件必须绑定到$(document)上，鼠标移动是在整个屏幕上的                
+						document.addEventListener('mousemove', moveVol); //此处的$(document)可以改为obj
+						document.addEventListener('mouseup', stopVol);
+					}
+					if (obj.style.top != 0) {
+						$('.volume').css({
+							'background-image': 'url(img/yinliang.png)'
+						})
+						vol = true;
+					}
+					return false; //阻止默认事件或冒泡        
+				}
+				if (volbtn) {
+
+					function moveVol(event) {
+						if (-3 < event.pageY - offsetY && event.pageY - offsetY < $('.volumeNum').height() - 3) {
+							player.volume = ($('.volumeNum').height() - (event.pageY - obj.offsetTop + 1)) / $('.volumeNum').height();
+							obj.style.top = (event.pageY - offsetY) + 'px';
+						}
+						return false; //阻止默认事件或冒泡        
+					}
+
+					function stopVol(envet) {
+						volbtn = false;
+						document.removeEventListener('mousemove', moveVol);
+						document.removeEventListener('mouseup', stopVol);
+					}
+				} else {
+					return false;
+				}
+			}
+			var objVol = document.getElementsByClassName('volumeBtn')[0];
+			objVol.style.top = $('.volumeNum').height() * 0.5 + 'px'; //注意0.5,起始默认音量
+			player.volume = 0.5; //注意0.5
+			drapVol(objVol);
+
+			//点击音量主轴
+			function drapVolNum(obj) {
+				if (!volbtn) {
+					obj.addEventListener('mousedown', startVolNum);
+
+					function startVolNum(event) { // 鼠标左键 
+						if (event.button == 0) { // getComputedStyle(obj)['margin-left'] return XXpx需要转成整型                // 如果有obj有margin值而不加这个数组拖拽会出现位置偏移
+							offsetY1 = event.pageY - obj.offsetTop + parseInt(getComputedStyle(obj)['margin-top']);
+							offsetY = event.pageY - obj.offsetTop + parseInt(getComputedStyle(obj)['margin-top']); // 绑定事件，同样unbind解绑定，此效果的实现最后必须要解绑定，否则鼠标松开后拖拽效果依然存在                //movemove事件必须绑定到$(document)上，鼠标移动是在整个屏幕上的                
+							document.addEventListener('mousemove', moveVolNum); //此处的$(document)可以改为obj                
+							document.addEventListener('mouseup', stopVolNum);
+							objVol.style.top = offsetY1 - 3 + 'px';
+							player.volume = ($('.volumeNum').height() - (event.pageY - obj.offsetTop + 1)) / $('.volumeNum').height();
+							// console.log(player.volume);
+						}
+						if (objVol.style.top != 0) {
+							$('.volume').css({
+								'background-image': 'url(img/yinliang.png)'
+							})
+							vol = true;
+						}
+						return false; //阻止默认事件或冒泡        
+					}
+
+					function moveVolNum(event) {
+						if (0 < event.pageY - obj.offsetTop && event.pageY - obj.offsetTop < $('.volumeNum').height()) {
+							// console.log(objVol.style.top);
+							objVol.style.top = event.pageY - obj.offsetTop - parseInt(getComputedStyle(obj)['margin-top']) - 3 + 'px';
+							player.volume = ($('.volumeNum').height() - (event.pageY - obj.offsetTop + 1)) / $('.volumeNum').height();
+							// console.log(event.pageY - obj.offsetTop + 1);
+							// console.log($('.volumeNum').height());
+						}
+						return false; //阻止默认事件或冒泡        
+					}
+
+					function stopVolNum(envet) {
+						document.removeEventListener('mousemove', moveVolNum);
+						document.removeEventListener('mouseup', stopVolNum);
+					}
+				}
+			}
+			var objVolNum = document.getElementsByClassName('volumeNum')[0];
+			drapVolNum(objVolNum);
+			//点击静音
+			var vol = true;
+			var numV = 0;
+			var numVB = 0;
+			$('.volume').click(function() {
+				if (vol) {
+					numV = player.volume;
+					numVB = objVol.style.top;
+					// console.log(objVol.style.top);
+					player.volume = 0;
+					objVol.style.top = objVolNum.offsetHeight - 4 + 'px';
+					$('.volume').css({
+						'background-image': 'url(img/mute.png)'
+					})
+					vol = false;
+				} else {
+					player.volume = numV;
+					objVol.style.top = numVB;
+					console.log(numVB)
+					$('.volume').css({
+						'background-image': 'url(img/yinliang.png)'
+					})
+					vol = true;
+				}
+			})
+
+
+			var arr = [0];
+
+			var arrFirst = arr.length > 0 ? arr[0] : false;
+			// for()
+
+			//上一曲下一曲
+			var sjhsx = 0; //记下随机播放到第几首
+			var shunxu = true; //判断是否是从随机播放转到的顺序播放
+			var ceshi = false; //判断之前是否有顺序播放的歌曲,有的话将顺序播放过的歌从随即列表中去除
+			function suijibofang() { //随机播放
+				if (arr.length > 0) {
+					if (ceshi) {
+						for (var i = 0; i < completeArr.length; i++) {
+							for (var j = 0; j < arr.length; j++) {
+								if (arr[j] == completeArr[i]) {
+									arr.splice(j, 1);
+								}
+							}
+						}
+						console.log(arr);
+					}
+					console.log(ceshi);
+					$('.img').css({
+						'background-image': 'url(' + allMusic[arr[0]].img + ')',
+						'animation-play-state': 'running'
+					})
+
+					player.src = allMusic[arr[0]].src;
+					player.play();
+					sjhsx = arr[0];
+					shunxu = false;
+					arr.splice(0, 1);
+				} else {
+					arr = [];
+					for (var i = 0; i < allMusic.length; i++) {
+						var arrNum = Math.round(Math.random() * (allMusic.length - 1));
+						var flag = true;
+						for (var j = 0; j <= arr.length; j++) {
+							if (arrNum == arr[j]) {
+								flag = false;
+								break;
+							}
+						}
+						if (flag) {
+							arr.push(arrNum);
+						} else {
+							i--;
+						}
+					}
+					console.log("splice之前的" + arr);
+					$('.img').css({
+						'background-image': 'url(' + allMusic[arr[0]].img + ')',
+						'animation-play-state': 'running'
+					})
+					player.src = allMusic[arr[0]].src;
+					player.play();
+					arr.splice(0, 1);
+					console.log("splice之后的" + arr);
+					ceshi = false;
+				}
+				console.log(arr.length);
+				console.log('数组是completeArr' + completeArr);
+				console.log('数组是arr' + arr);
+			}
+
+			function changing(e) {
+				if (e) {
+					switch (circulate % 3) {
+						case 0: //顺序
+							if (shunxu) {
+								num++;
+							} else {
+								num = sjhsx;
+								num++
+							}
+							if (completeArr.length < allMusic.length) {
+								completeArr.push(num % allMusic.length);
+							} else {
+								completeArr = [0];
+							}
+							var numN = num % allMusic.length;
+							player.src = allMusic[numN].src;
+							$('.img').css({
+								'background-image': 'url(' + allMusic[numN].img + ')',
+								'animation-play-state': 'running'
+							})
+							console.log(completeArr);
+							console.log(arr);
+							break;
+						case 1: //随机
+							suijibofang();
+							break;
+						case 2: //单曲循环
+							var numN = num % allMusic.length;
+							console.log(numN);
+							player.src = allMusic[numN].src;
+							$('.img').css({
+								'background-image': 'url(' + allMusic[numN].img + ')',
+								'animation-play-state': 'running'
+							})
+							break;
+					}
+				} else {
+					switch (circulate % 3) {
+						case 0:
+							if (shunxu) {
+								if (num > 0) {
+									num = num - 1;
+								} else {
+									num = allMusic.length;
+								}
+							} else {
+								num = sjhsx;
+								if (num > 0) {
+									num = num - 1;
+								} else {
+									num = allMusic.length;
+								}
+							}
+							var numN = num % allMusic.length;
+							player.src = allMusic[numN].src;
+							console.log(allMusic[numN].img);
+							$('.img').css("background-image", "url(" + allMusic[numN].img + ")");
+							break;
+						case 1: //随机
+							suijibofang();
+							break;
+						case 2: //单曲循环
+							var numN = num % allMusic.length;
+							console.log(numN);
+							player.src = allMusic[numN].src;
+							$('.img').css({
+								'background-image': 'url(' + allMusic[numN].img + ')',
+								'animation-play-state': 'running'
+							})
+							break;
+					}
+				}
+				var t = setInterval(function() { //加载
+					if (player.duration) {
+						var omm = Math.floor(player.duration / 60); //duration总时长
+						var oss = Math.ceil(player.duration % 60);
+						$('.duration').html((omm < 10 ? '0' + omm : omm) + ':' + (oss < 10 ? '0' + oss : oss));
+						clearInterval(t);
+					} else {
+						$('.duration').html('00:00');
+					}
+				}, 10)
+				var progressT = setInterval(function() {
+					var nmm = Math.floor(player.currentTime / 60); //currentTime播放时长
+					var nss = Math.ceil(player.currentTime % 60);
+					$('.playtime').html((nmm < 10 ? '0' + nmm : nmm) + ':' + (nss < 10 ? '0' + nss : nss));
+					if (judge == false) {
+						$('.progressBtn').css({
+							'left': (player.currentTime / player.duration) * $('.progressBar').width() - 3 + 'px'
+						}); //进度条上的按钮
+						$('.progressStr').css({
+							'width': (player.currentTime / player.duration * 100) + '%'
+						});
+					}
+				}, 10);
+				player.play();
+				if (player.ended) {
+					$('.play').css("background-image", "url(img/play.png)");
+				} else {
+					$('.play').css("background-image", "url(img/pause.png)");
+				}
+			}
+			$('.last').click(function() { //上一曲
+				changing(0);
+			})
+			$('.next').click(function() { //下一曲
+				changing(1);
+			})
+
+
+			//循环模式
+			$('.mode').click(function() {
+				circulate++;
+				console.log(circulate);
+				switch (circulate % 3) {
+					case 0:
+						$('.mode').css("background-image", "url(img/listLoop.png)");
+						break;
+					case 1:
+						ceshi = true;
+						$('.mode').css("background-image", "url(img/randomPlay.png)");
+						break;
+					case 2:
+						$('.mode').css("background-image", "url(img/singleCycle.png)");
+						break;
+
+				}
+			})
+		</script>
+	</body>
+</html>

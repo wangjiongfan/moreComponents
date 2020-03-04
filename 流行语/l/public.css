@@ -1,0 +1,120 @@
+/* public */
+@charset "utf-8";
+body{background-color:#F5F5F5;font:12px "宋体",Arial;}
+*{margin: 0;padding: 0;}	
+ul{list-style:none outside none;}
+.clear{clear:both;}
+a{color:#3A64B0;text-decoration: none;}
+a:hover{text-decoration:underline;}
+h2{font-size:14px;}
+img{border:none;}
+.hr {
+    border-bottom: 1px solid #1972C0;
+    border-top: 1px solid #1D8FD5;
+    clear: both;
+    margin: 10px 0;
+}
+
+
+/* HEAD 布局 */
+#head{
+    width: 1000px;
+	height: 165px;
+    margin: 0 auto;
+}
+	#logo_top{width:100%;height:28px;color:#666666;font-size:12px;line-height:28px;background-image: url("/Public/T/img/tbj.gif");border-width:thin;border-style:solid;border-color:#dbdbdb;}
+		#tl{float:left;margin-left:10px;}
+		#tr{float:right;margin-right:5px;}
+
+	#logo{width:100%;height: 100px;}
+		#logo_l{float:left;}
+		#logo_r{float:right;}
+
+	#menu{width:100%;height:33px; background: url("/Public/T/img/nav.png") repeat-x scroll 0 0 #1E3E74;border-width:thin;border-style:solid;border-color:#dbdbdb;}
+		#menu ul li{float:left;}
+		#menu ul li a{
+			padding-left:15px;
+			font-size:18px;
+			font-weight:bold;
+			color:#FFFFFF;
+			line-height:35px;
+		}
+
+/* CONTENT 布局 */
+#content{
+    width: 1000px;
+	height: auto;
+    margin: 0 auto;
+}
+#main{
+    width: 1000px;
+	height: 300px;
+	border-width:thin;border-style:solid;border-color:#dbdbdb;
+}
+/* 列表 */
+.list{
+    width: 1000px;
+	height: auto;
+	border-width:thin;border-style:solid;border-color:#dbdbdb;
+}
+	.list_t{
+		width:100%;
+		height:35px;
+		background: url("/Public/T/img/title-bg.gif") repeat scroll 0 0 transparent;
+	}
+	.list_t h2{
+		line-height:35px;
+		padding-left:10px;
+	}
+	.listf{
+		width:100%;
+		height: auto;
+	}
+	.listf ul li{
+		width:16%;
+		line-height:30px;
+		text-align:center;
+		float:left;
+	}
+/* 友情链接 */
+#link{
+	width: 1000px;
+	height: auto;
+	border-width:thin;border-style:solid;border-color:#dbdbdb;
+	line-height:25px;
+	margin-top:20px;
+}
+#link_t{
+	width:100%;
+	height: 25px;
+	background: url("/Public/T/img/g1.gif") repeat-x scroll 0 1px transparent;
+}
+#link_t span{
+	margin-left:10px;
+}
+#link_f ul li{
+	margin-left:10px;
+	height: auto;
+	float:left;
+}
+
+/* FOOT 布局 */
+#foot{
+    width: 1000px;
+	height: auto;
+    margin: 0 auto;
+	text-align:center;
+}
+
+
+/* 标签云 */
+#div1 {position:relative; width:100%; height:100%; }
+#div1 a {position:absolute; top:0px; left:0px; font-family: Microsoft YaHei; color:red; font-weight:bold; text-decoration:none; padding: 3px 6px; }
+#div1 a:hover {border: 1px solid #eee; background: #000; }
+#div1 .blue {color:blue;}
+#div1 .red {color:red;}
+#div1 .yellow {color:yellow;}
+
+/* 调试使用	*/
+/* div{border-width:thin;border-style:solid;border-color:blue;}
+*/
