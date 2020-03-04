@@ -1,1 +1,1 @@
-# moreComponents
+# 此项目包含多个原生JS+jQuery的组件，下载后可以直接使用。
